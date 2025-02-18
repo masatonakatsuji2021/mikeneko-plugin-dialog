@@ -1,0 +1,11 @@
+{
+    "name": "mikeneko-plugin-dialog",
+    "description": "dialog window package of SPA (Single Page Action) framework \"mikeneko\".",
+    "author": "masato nakatsuji",
+    "license": "MIT",
+    "version":"1.0.0",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/masatonakatsuji2021/mikeneko-plugin-dialog.git"
+    }
+}
