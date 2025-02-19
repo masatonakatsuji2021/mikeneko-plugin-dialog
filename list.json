@@ -1,3 +1,6 @@
 [
-    "Dialog"
+    "Dialog",
+    "AlertDialog",
+    "ConfirmDialog",
+    "LoadingDialog"
 ]
