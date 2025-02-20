@@ -1,5 +1,6 @@
 import { Render } from "Render";
 import { VirtualDom, dom } from "VirtualDom";
+import { Data } from "Data";
 
 /**
  * ***DialogOption*** : Option settings when the dialog is displayed
@@ -75,11 +76,11 @@ export class Dialog extends Render {
      * ***forceClose*** : Forces all open dialogs to close.
      */
     public static forceClose() {
-        for(let n = 0 ; n < this.__dialogBuffers.length ; n++) {
-            const dialog = this.__dialogBuffers[n];
+        for(let n = 0 ; n < Dialog.__dialogBuffers.length ; n++) {
+            const dialog = Dialog.__dialogBuffers[n];
             dialog.close();
         }
-        this.__dialogBuffers = [];
+        Dialog.__dialogBuffers = [];
     }
     
     /**
@@ -191,7 +192,7 @@ export class Dialog extends Render {
         if (dialogName) dialogName = "dialog/" + dialogName;
         if (!option) option = {};
 
-        this.setDialogCss();
+        Dialog.openDialogStyleSheet();
 
         const dialogVdo = VirtualDom.create("", "dialog");
         const dialog : Dialog = this.loadClass(dialogVdo, dialogName, this);
@@ -216,15 +217,57 @@ export class Dialog extends Render {
             dialogVdo.addClass("open");
         }, 100);
         if (dialog.handle) dialog.handle(option.sendData);
-        this.__dialogBuffers.push(dialog);
+        Dialog.__dialogBuffers.push(dialog);
+        Data.push("backHandle", ()=>{
+            if (Dialog.__dialogBuffers.length) {
+                const dialog = Dialog.__dialogBuffers.pop();
+                dialog.close();
+            }
+        });
         if (option.handle) option.handle(dialog);
         return dialog;
     }
 
-    private static setDialogCss(){
+    /**
+     * ***show*** : Displays the specified dialog.
+     * @returns 
+     */
+    public show() : Dialog;
+
+    /**
+     * ***show*** : Displays the specified dialog.
+     * @param {any} sendData send data 
+     * @returns 
+     */
+    public show(sendData? : any) : Dialog {
+        const dialogVdo = VirtualDom.create("", "dialog");
+        if (this.html) dialogVdo.html = "<dwindow>" + this.html + "</dwindow>";
+        dom("body").append(dialogVdo, true);
+        dialogVdo.reload();
+
+        Dialog.openDialogStyleSheet();
+
+        this.vdo = dialogVdo;
+        this.vdos = dialogVdo.childs;
+        setTimeout(()=>{
+            dialogVdo.addClass("open");
+        }, 100);
+        if (this.handle) this.handle(sendData);
+        Dialog.__dialogBuffers.push(this);
+        Data.push("backHandle", ()=>{
+            if (Dialog.__dialogBuffers.length) {
+                const dialog = Dialog.__dialogBuffers.pop();
+                dialog.close();
+            }
+        });
+        return this;
+    }
+
+    public static openDialogStyleSheet(){
         if (Dialog.__cssDom) return;
         const link = VirtualDom.create("", "link");
         link.attr("rel", "stylesheet");
+        // @ts-ignore
         link.href = "data:text/css;base64," + use("CORERES/mikeneko-plugin-dialog/style.css");
         dom("head").afterBegin(link);
         Dialog.__cssDom = link;

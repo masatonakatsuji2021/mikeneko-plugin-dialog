@@ -22,10 +22,12 @@ export interface LoadingDialogOption {
 export class LoadingDialog extends Dialog {
 
     public html = `<div class="loading"></div>
+<div class="info">
 <div class="message" v="message"></div>
-<div v="buttonArea">
-    <a class="button" v="button"></a>
+<div v="buttonArea"><a class="button" v="button"></a></div>
 </div>`;
+
+    public className: string = "loading_dialog";
 
     /**
      * ***message*** : To change the displayed message.
@@ -58,7 +60,12 @@ export class LoadingDialog extends Dialog {
         if (typeof option == "string") option = { message: option };
         if (option.transitionLock) Transition.lock = true;
         const dialog = this.show() as LoadingDialog;
-        if (option.className) dialog.vdo.addClass(option.className);
+        if (option.className) {
+            dialog.vdo.addClass(option.className);
+        }
+        else {
+            dialog.vdo.addClass(dialog.className);
+        }
         if (option.message) dialog.message = option.message;
         dialog.vdos.buttonArea.display = false;
         if (option.buttonText) {

@@ -25,3 +25,52 @@ dialog dwindow {
     background:white;
     color:black;
 }
+dialog.alert_dialog dwindow,
+dialog.confirm_dialog dwindow,
+dialog.loading_dialog dwindow {
+    padding:20px;
+}
+dialog.alert_dialog dwindow .foot,
+dialog.confirm_dialog dwindow .foot {
+    text-align:right;
+    margin-top:15px;
+}
+dialog.alert_dialog dwindow .title,
+dialog.confirm_dialog dwindow .title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom:1rem;
+}
+dialog.alert_dialog dwindow .message,
+dialog.confirm_dialog dwindow .message {
+    line-height:1.3rem;
+}
+dialog.confirm_dialog dwindow .foot span {
+    margin-left:20px;
+}
+dialog.loading_dialog dwindow {
+    display:table;
+}
+dialog.loading_dialog dwindow .loading {
+    display:table-cell;
+    vertical-align: middle;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:solid 2px black;
+    border-left:solid 2px rgba(0,0,0,0);
+    animation: loading 1s linear infinite;
+}
+dialog.loading_dialog dwindow .info {
+    display:table-cell;
+    vertical-align: middle;
+    padding-left:20px;
+}
+@keyframes loading {
+    0% {
+        transform:rotate(0deg);
+    }
+    100% {
+        transform:rotate(360deg);
+    }
+}

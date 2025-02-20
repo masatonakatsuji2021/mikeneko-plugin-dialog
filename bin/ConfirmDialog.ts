@@ -35,10 +35,12 @@ export class ConfirmDialog extends Dialog {
 
     public html = `<div class="title" v="title"></div>
 <div class="message" v="message"></div>
-<div>
-    <a class="cancel" v="cancel">Cancel</a>
-    <a class="button" v="button">OK</a>
+<div class="foot">
+<span><a class="cancel" v="cancel">Cancel</a></span>
+<span><a class="button" v="button">OK</a></span>
 </div>`;
+
+    public className: string = "confirm_dialog";
 
     /**
      * ***message*** : To change the displayed message.
@@ -52,6 +54,7 @@ export class ConfirmDialog extends Dialog {
      * ***title*** : To change the displayed title.
      */
     public set title(title : string) {
+        this.vdos.title.display = true;
         this.vdos.title.text = title;
     }
 
@@ -76,7 +79,13 @@ export class ConfirmDialog extends Dialog {
     public static open(option :  ConfirmDialogOption) : ConfirmDialog {
         if (option.transitionLock) Transition.lock = true;
         const dialog = this.show() as ConfirmDialog;
-        if (option.className) dialog.vdo.addClass(option.className);
+        if (option.className) {
+            dialog.vdo.addClass(option.className);
+        }
+        else {
+            dialog.vdo.addClass(dialog.className);
+        }
+        dialog.vdos.title.display = false;
         if (option.title) dialog.title = option.title;
         if (option.message) dialog.message = option.message;
         if (option.buttonText) dialog.buttonText = option.buttonText;

@@ -32,7 +32,9 @@ export class AlertDialog extends Dialog {
 
     public html = `<div class="title" v="title"></div>
 <div class="message" v="message"></div>
-<div class="button" v="button">OK</div>`;
+<div class="foot"><a class="button" v="button">OK</a></div>`;
+
+    public className: string = "alert_dialog";
 
     /**
      * ***message*** : To change the displayed message.
@@ -46,6 +48,7 @@ export class AlertDialog extends Dialog {
      * ***title*** : To change the displayed title.
      */
     public set title(title : string) {
+        this.vdos.title.display = true;
         this.vdos.title.text = title;
     }
 
@@ -72,7 +75,13 @@ export class AlertDialog extends Dialog {
         if (typeof option == "string") option = { message: option };
         if (option.transitionLock) Transition.lock = true;
         const dialog = this.show() as AlertDialog;
-        if (option.className) dialog.vdo.addClass(option.className);
+        if (option.className) {
+            dialog.vdo.addClass(option.className);
+        }
+        else {
+            dialog.vdo.addClass(dialog.className);
+        }
+        dialog.vdos.title.display = false;
         if (option.title) dialog.title = option.title;
         if (option.message) dialog.message = option.message;
         if (option.buttonText) dialog.buttonText = option.buttonText;

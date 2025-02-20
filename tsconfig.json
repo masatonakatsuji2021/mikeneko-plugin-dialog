@@ -5,7 +5,7 @@
       "lib": ["es6","dom"],
       "outDir":"./",
       "paths": {
-        "*": ["./*", "../mikeneko-corelib/bin/*"]
+        "*": ["./bin/*", "../mikeneko-corelib/bin/*"]
       }
     },
     "exclude": [
