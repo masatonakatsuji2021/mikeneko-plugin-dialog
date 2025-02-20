@@ -2,5 +2,6 @@
     "Dialog",
     "AlertDialog",
     "ConfirmDialog",
-    "LoadingDialog"
+    "LoadingDialog",
+    "BottomupDialog"
 ]

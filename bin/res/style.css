@@ -74,3 +74,37 @@ dialog.loading_dialog dwindow .info {
         transform:rotate(360deg);
     }
 }
+
+dialog.botomup_dialog dwindow {
+    top:auto;
+    left:0;
+    width:100%;
+    max-width:inherit;
+    transform:inherit;
+    opacity:1;
+    border-radius:0;
+}
+dialog.botomup_dialog.open dwindow {
+    bottom:0;
+    animation: bottomup 300ms alternate;
+}
+dialog.botomup_dialog.close dwindow {
+    bottom:-100%;
+    animation: bottomup_close 300ms alternate;
+}
+@keyframes bottomup {
+    0% {
+        bottom:-100%;
+    }
+    100% {
+        bottom:0;
+    }
+}
+@keyframes bottomup_close {
+    0% {
+        bottom:0;
+    }
+    100% {
+        bottom:-100%;
+    }
+}

@@ -58,10 +58,11 @@ export class Dialog extends Render {
      * ***close*** : Method for closing the dialog.
      */
     public close() {
-        this.vdo.removeClass("open");
+        this.vdo.removeClass("open").addClass("close");
         this.handleClose();
         setTimeout(() => {
             this.vdo.remove();
+            Data.pop(DataService.backHandle);
             for(let n = 0 ; n < Dialog.__dialogBuffers.length ; n++) {
                 if (Dialog.__dialogBuffers[n] == this) Dialog.__dialogBuffers.splice(n, 1);
             }
@@ -257,7 +258,6 @@ export class Dialog extends Render {
         Data.push(DataService.backHandle, ()=>{
             if (Dialog.__dialogBuffers.length) {
                 const dialog = Dialog.__dialogBuffers.pop();
-                dialog.close();
             }
         });
         return this;
