@@ -1,6 +1,6 @@
 import { Render } from "Render";
 import { VirtualDom, dom } from "VirtualDom";
-import { Data } from "Data";
+import { Data, DataService } from "Data";
 
 /**
  * ***DialogOption*** : Option settings when the dialog is displayed
@@ -218,7 +218,7 @@ export class Dialog extends Render {
         }, 100);
         if (dialog.handle) dialog.handle(option.sendData);
         Dialog.__dialogBuffers.push(dialog);
-        Data.push("backHandle", ()=>{
+        Data.push(DataService.backHandle, ()=>{
             if (Dialog.__dialogBuffers.length) {
                 const dialog = Dialog.__dialogBuffers.pop();
                 dialog.close();
@@ -254,7 +254,7 @@ export class Dialog extends Render {
         }, 100);
         if (this.handle) this.handle(sendData);
         Dialog.__dialogBuffers.push(this);
-        Data.push("backHandle", ()=>{
+        Data.push(DataService.backHandle, ()=>{
             if (Dialog.__dialogBuffers.length) {
                 const dialog = Dialog.__dialogBuffers.pop();
                 dialog.close();
