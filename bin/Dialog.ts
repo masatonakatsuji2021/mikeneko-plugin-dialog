@@ -1,6 +1,7 @@
 import { Render } from "Render";
 import { VirtualDom, dom } from "VirtualDom";
 import { Data, DataService } from "Data";
+import { Lib } from "Lib";
 
 /**
  * ***DialogOption*** : Option settings when the dialog is displayed
@@ -267,8 +268,7 @@ export class Dialog extends Render {
         if (Dialog.__cssDom) return;
         const link = VirtualDom.create("", "link");
         link.attr("rel", "stylesheet");
-        // @ts-ignore
-        link.href = "data:text/css;base64," + use("CORERES/mikeneko-plugin-dialog/style.css");
+        link.href = Lib.getPluginResourceDataUrl("mikeneko-plugin-dialog", "style.css");
         dom("head").afterBegin(link);
         Dialog.__cssDom = link;
     }
