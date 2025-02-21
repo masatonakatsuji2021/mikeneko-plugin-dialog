@@ -268,7 +268,7 @@ export class Dialog extends Render {
         if (Dialog.__cssDom) return;
         const link = VirtualDom.create("", "link");
         link.attr("rel", "stylesheet");
-        link.href = Lib.getPluginResourceDataUrl("mikeneko-plugin-dialog", "style.css");
+        link.href = Lib.getPluginResourceDataUrl("mikeneko-plugin-dialog", "style.css", "text/css");
         dom("head").afterBegin(link);
         Dialog.__cssDom = link;
     }
