@@ -27,7 +27,10 @@ export class LoadingDialog extends Dialog {
 <div v="buttonArea"><a class="button" v="button"></a></div>
 </div>`;
 
-    public className: string = "loading_dialog";
+    /** class attribute */
+    public className: string;
+
+    public onButtonClick: () => void | Promise<void>;
 
     /**
      * ***message*** : To change the displayed message.
@@ -60,12 +63,9 @@ export class LoadingDialog extends Dialog {
         if (typeof option == "string") option = { message: option };
         if (option.transitionLock) Transition.lock = true;
         const dialog = this.show() as LoadingDialog;
-        if (option.className) {
-            dialog.vdo.addClass(option.className);
-        }
-        else {
-            dialog.vdo.addClass(dialog.className);
-        }
+        dialog.vdo.addClass("loading_dialog");
+        if (option.className) dialog.vdo.addClass(option.className);
+        if (dialog.className) dialog.vdo.addClass(dialog.className);
         if (option.message) dialog.message = option.message;
         dialog.vdos.buttonArea.display = false;
         if (option.buttonText) {
@@ -73,6 +73,7 @@ export class LoadingDialog extends Dialog {
             dialog.buttonText = option.buttonText;
             dialog.vdos.button.onClick = async () => {
                 if (option.onButtonClick) await option.onButtonClick();
+                if (dialog.onButtonClick) await dialog.onButtonClick();
                 dialog.close();
                 if (option.transitionLock) Transition.lock = false;
             };

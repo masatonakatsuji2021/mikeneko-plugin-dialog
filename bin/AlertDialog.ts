@@ -34,7 +34,10 @@ export class AlertDialog extends Dialog {
 <div class="message" v="message"></div>
 <div class="foot"><a class="button" v="button">OK</a></div>`;
 
-    public className: string = "alert_dialog";
+    /** class attribute */
+    public className: string;
+
+    public onButtonClick : () => void | Promise<void>;
 
     /**
      * ***message*** : To change the displayed message.
@@ -75,18 +78,16 @@ export class AlertDialog extends Dialog {
         if (typeof option == "string") option = { message: option };
         if (option.transitionLock) Transition.lock = true;
         const dialog = this.show() as AlertDialog;
-        if (option.className) {
-            dialog.vdo.addClass(option.className);
-        }
-        else {
-            dialog.vdo.addClass(dialog.className);
-        }
+        dialog.vdo.addClass("alert_dialog");
+        if (option.className) dialog.vdo.addClass(option.className);
+        if (dialog.className) dialog.vdo.addClass(dialog.className);
         dialog.vdos.title.display = false;
         if (option.title) dialog.title = option.title;
         if (option.message) dialog.message = option.message;
         if (option.buttonText) dialog.buttonText = option.buttonText;
         dialog.vdos.button.onClick = async () => {
             if (option.onButtonClick) await option.onButtonClick();
+            if (dialog.onButtonClick) await dialog.onButtonClick();
             dialog.close();
             if (option.transitionLock) Transition.lock = false;
         };

@@ -40,7 +40,12 @@ export class ConfirmDialog extends Dialog {
 <span><a class="button" v="button">OK</a></span>
 </div>`;
 
-    public className: string = "confirm_dialog";
+    /** class attribute */
+    public className: string;
+
+    public onCancelClick : () => void | Promise<void>;
+
+    public onButtonClick : () => void | Promise<void>;
 
     /**
      * ***message*** : To change the displayed message.
@@ -79,12 +84,9 @@ export class ConfirmDialog extends Dialog {
     public static open(option :  ConfirmDialogOption) : ConfirmDialog {
         if (option.transitionLock) Transition.lock = true;
         const dialog = this.show() as ConfirmDialog;
-        if (option.className) {
-            dialog.vdo.addClass(option.className);
-        }
-        else {
-            dialog.vdo.addClass(dialog.className);
-        }
+        dialog.vdo.addClass("confirm_dialog");
+        if (option.className) dialog.vdo.addClass(option.className);
+        if (dialog.className) dialog.vdo.addClass(dialog.className);
         dialog.vdos.title.display = false;
         if (option.title) dialog.title = option.title;
         if (option.message) dialog.message = option.message;
@@ -93,12 +95,14 @@ export class ConfirmDialog extends Dialog {
 
         dialog.vdos.cancel.onClick = async () => {
             if (option.onCancelClick) await option.onCancelClick();
+            if (dialog.onCancelClick) await dialog.onCancelClick();
             dialog.close();
             if (option.transitionLock) Transition.lock = false;
         };
 
         dialog.vdos.button.onClick = async () => {
             if (option.onButtonClick) await option.onButtonClick();
+            if (dialog.onButtonClick) await dialog.onButtonClick();
             dialog.close();
             if (option.transitionLock) Transition.lock = false;
         };
